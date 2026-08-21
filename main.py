@@ -68,9 +68,9 @@ def main():
         help="Enter your Groq API Key (defaults to .env file if available)"
     )
 
-    default_model = os.getenv("GROQ_MODEL", "qwen/qwen3.6-27b")
+    default_model = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
     if default_model not in FREE_TIER_MODELS:
-        default_model = "qwen/qwen3.6-27b"
+        default_model = "llama-3.3-70b-versatile"
 
     model_name = st.sidebar.selectbox(
         "Select Groq Free-Tier Model",
