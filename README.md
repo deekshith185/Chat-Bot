@@ -1,40 +1,93 @@
-# Streamlit AI Chatbot (Groq & LangGraph)
+# 🤖 Dynamo AI — Streamlit ChatGPT Assistant (Groq & LangGraph)
 
-A clean, simple ChatGPT-style web interface powered by **Groq Free-Tier Models** and **LangGraph ReAct Agent**.
-
-## 🌟 Features
-- 💬 **Simple ChatGPT UI**: Clean dark-mode conversational UI built with Streamlit.
-- 🆓 **Groq Free Tier Models**: Powered by `llama-3.3-70b-versatile`, `llama-3.1-8b-instant`, `mixtral-8x7b-32768`, and `gemma2-9b-it`.
-- ⚡ **Real-Time Streaming**: Streamed responses directly into the chat interface.
-- 🛠️ **ReAct Tools**:
-  - `calculator`: Basic arithmetic sum calculation.
-  - `say_hello`: Friendly greetings.
-- 📜 **Single File Application**: Everything is self-contained cleanly inside `main.py`.
+A sleek, modern ChatGPT-style conversational Web AI Assistant powered by **Groq Free-Tier Models** and **LangGraph ReAct Agent**, built with Streamlit.
 
 ---
 
-## 🚀 How to Run
+## 🌟 Key Features
 
-### 1. Activate Virtual Environment
-```bash
-.venv\Scripts\activate
+- 💬 **ChatGPT UI Experience**: 
+  - User prompts rendered in right-aligned dark blue capsule bubbles (`#1a4a84`).
+  - Assistant responses aligned cleanly on the left with interactive action controls (`📋 Copy`, `📤 Share`, `🔄 Regenerate`, `•••`).
+  - Dark mode design (`#0d0d0d`).
+- ⚡ **Groq Free-Tier LLMs**: Supports high-speed streaming inference with top open-weights models:
+  - `llama-3.3-70b-versatile` *(Default)*
+  - `qwen/qwen3.6-27b`
+  - `llama-3.1-8b-instant`
+  - `mixtral-8x7b-32768`
+  - `gemma2-9b-it`
+- 🧠 **LangGraph ReAct Agent**: Reasoning and tool-use capabilities using custom agents.
+- 🛠️ **Built-in Agent Tools**:
+  - `calculator`: Performs arithmetic computations.
+  - `say_hello`: Responds with greetings.
+- 🎛️ **Sidebar Controls**: Dynamic model selector, API key input, and instant chat history reset.
+- 📜 **Single-File Architecture**: Clean, modular structure maintained inside [`main.py`](main.py).
+
+---
+
+## 📁 Repository Structure
+
+```text
+workshop_2026/
+├── main.py              # Main Streamlit application & LangGraph agent
+├── requirements.txt     # Python dependencies
+├── .env.example         # Template for environment variables
+├── .gitignore           # Git ignore rules
+└── README.md            # Project documentation
 ```
 
-### 2. Install Dependencies
+---
+
+## 🚀 Quick Start Guide
+
+### 1. Clone & Navigate to Repository
+```bash
+git clone https://github.com/deekshith185/Chat-Bot.git
+cd Chat-Bot
+```
+
+### 2. Activate Virtual Environment
+```bash
+# Windows
+.venv\Scripts\activate
+
+# macOS / Linux
+source .venv/bin/activate
+```
+
+### 3. Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Set API Key
-Copy `.env.example` to `.env` and add your Groq API key:
+### 4. Configure Environment Variables
+Copy `.env.example` to `.env` and insert your free Groq API Key:
+```bash
+cp .env.example .env
+```
+Inside `.env`:
 ```env
 GROQ_API_KEY=gsk_your_groq_api_key_here
 GROQ_MODEL=llama-3.3-70b-versatile
 ```
-*(You can also enter your API key directly in the app sidebar!)*
+*(Note: You can also enter your API key directly in the app sidebar at runtime!)*
 
-### 4. Launch the Streamlit App
+### 5. Launch the Streamlit App
 ```bash
 streamlit run main.py
 ```
-Open `http://localhost:8501` in your browser.
+Open **`http://localhost:8501`** in your browser.
+
+---
+
+## 🔑 Getting a Free Groq API Key
+
+1. Sign up or log in at [Groq Console](https://console.groq.com/).
+2. Navigate to **API Keys** and click **Create API Key**.
+3. Paste your key into `.env` or the Streamlit sidebar input.
+
+---
+
+## 📜 License
+
+Distributed under the MIT License. See `LICENSE` for more information.
