@@ -1,3 +1,4 @@
+import html
 import os
 import warnings
 import streamlit as st
@@ -29,30 +30,85 @@ def say_hello(name: str = "there") -> str:
 
 # Free-tier Groq models
 FREE_TIER_MODELS = [
-    "qwen/qwen3.6-27b",
     "llama-3.3-70b-versatile",
+    "qwen/qwen3.6-27b",
     "llama-3.1-8b-instant",
     "mixtral-8x7b-32768",
     "gemma2-9b-it"
 ]
 
 
+def render_user_message(content: str):
+    """Renders user message in a right-aligned ChatGPT style blue pill bubble."""
+    escaped_content = html.escape(content).replace("\n", "<br>")
+    st.markdown(f'''
+        <div style="display: flex; justify-content: flex-end; margin: 14px 0 18px 0; width: 100%;">
+            <div style="background-color: #1a4a84; color: #ffffff; padding: 10px 18px; border-radius: 22px; max-width: 75%; font-size: 15.5px; line-height: 1.5; word-break: break-word; box-shadow: 0 2px 8px rgba(0,0,0,0.25);">
+                {escaped_content}
+            </div>
+        </div>
+    ''', unsafe_allow_html=True)
+
+
+def render_assistant_actions():
+    """Renders ChatGPT style action icons underneath assistant responses."""
+    st.markdown('''
+        <div style="display: flex; gap: 14px; margin-top: 6px; margin-bottom: 22px; color: #8e8e93; font-size: 15px; opacity: 0.85;">
+            <span style="cursor: pointer;" title="Copy response">📋</span>
+            <span style="cursor: pointer;" title="Share">📤</span>
+            <span style="cursor: pointer;" title="Regenerate">🔄</span>
+            <span style="cursor: pointer;" title="More options">•••</span>
+        </div>
+    ''', unsafe_allow_html=True)
+
+
 def main():
     st.set_page_config(
-        page_title="ChatGPT AI Assistant",
+        page_title="Dynamo AI - ChatGPT Assistant",
         page_icon="🤖",
         layout="centered"
     )
 
-    # Simple Custom CSS for clean ChatGPT look
+    # ChatGPT Dark Theme Styling
     st.markdown("""
     <style>
     .stApp {
-        background-color: #212121;
-        color: #ECECEC;
+        background-color: #0d0d0d;
+        color: #ececec;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
-    .stChatMessage {
-        border-radius: 12px;
+    
+    /* Hide default Streamlit padding & header elements */
+    .block-container {
+        max-width: 800px;
+        padding-top: 1.5rem;
+        padding-bottom: 6rem;
+    }
+
+    /* Style select box & text inputs */
+    .stTextInput > div > div > input, .stSelectbox > div > div {
+        background-color: #171717;
+        color: #ffffff;
+        border: 1px solid #2e2e2e;
+        border-radius: 8px;
+    }
+
+    /* Chat input box at bottom */
+    div[data-testid="stChatInput"] {
+        border-radius: 24px;
+        background-color: #212121;
+    }
+
+    /* Custom scrollbars */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+        background: #0d0d0d;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #2a2a2a;
+        border-radius: 4px;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -85,6 +141,7 @@ def main():
     # --- Main Header ---
     st.title("🤖 Dynamo AI")
     st.caption(f"Powered by Groq (`{model_name}`) & LangGraph ReAct Agent")
+    st.divider()
 
     # --- Initialize Chat History ---
     if "messages" not in st.session_state:
@@ -92,8 +149,11 @@ def main():
 
     # Display existing chat messages
     for msg in st.session_state.messages:
-        with st.chat_message(msg["role"], avatar="👤" if msg["role"] == "user" else "🤖"):
+        if msg["role"] == "user":
+            render_user_message(msg["content"])
+        else:
             st.markdown(msg["content"])
+            render_assistant_actions()
 
     # --- Handle Chat Input ---
     user_input = st.chat_input("Ask Dynamo anything...")
@@ -104,52 +164,51 @@ def main():
             st.error("Please enter your Groq API key in the sidebar or set `GROQ_API_KEY` in `.env` file.")
             return
 
-        # Render user message
+        # Render user message on the RIGHT side
         st.session_state.messages.append({"role": "user", "content": user_input})
-        with st.chat_message("user", avatar="👤"):
-            st.markdown(user_input)
+        render_user_message(user_input)
 
-        # Generate Assistant Response
-        with st.chat_message("assistant", avatar="🤖"):
-            try:
-                # Initialize Model & Agent
-                model = ChatGroq(
-                    model=model_name,
-                    temperature=0,
-                    groq_api_key=api_key
-                )
-                tools = [calculator, say_hello]
-                agent_executor = create_react_agent(
-                    model=model,
-                    tools=tools,
-                    prompt="You are Dynamo, a helpful and friendly AI assistant. Use tools when needed."
-                )
+        # Generate Assistant Response on the LEFT side
+        try:
+            # Initialize Model & Agent
+            model = ChatGroq(
+                model=model_name,
+                temperature=0,
+                groq_api_key=api_key
+            )
+            tools = [calculator, say_hello]
+            agent_executor = create_react_agent(
+                model=model,
+                tools=tools,
+                prompt="You are Dynamo, a helpful and friendly AI assistant. Use tools when needed."
+            )
 
-                # Format conversation history for LangGraph
-                history = []
-                for m in st.session_state.messages[:-1]:
-                    if m["role"] == "user":
-                        history.append(HumanMessage(content=m["content"]))
-                    elif m["role"] == "assistant":
-                        history.append(AIMessage(content=m["content"]))
-                history.append(HumanMessage(content=user_input))
+            # Format conversation history for LangGraph
+            history = []
+            for m in st.session_state.messages[:-1]:
+                if m["role"] == "user":
+                    history.append(HumanMessage(content=m["content"]))
+                elif m["role"] == "assistant":
+                    history.append(AIMessage(content=m["content"]))
+            history.append(HumanMessage(content=user_input))
 
-                response_placeholder = st.empty()
-                full_response = ""
+            response_placeholder = st.empty()
+            full_response = ""
 
-                # Stream response chunks
-                for chunk in agent_executor.stream({"messages": history}):
-                    if "agent" in chunk and "messages" in chunk["agent"]:
-                        for message in chunk["agent"]["messages"]:
-                            if message.content:
-                                full_response += message.content
-                                response_placeholder.markdown(full_response + " ▌")
+            # Stream response chunks
+            for chunk in agent_executor.stream({"messages": history}):
+                if "agent" in chunk and "messages" in chunk["agent"]:
+                    for message in chunk["agent"]["messages"]:
+                        if message.content:
+                            full_response += message.content
+                            response_placeholder.markdown(full_response + " ▌")
 
-                response_placeholder.markdown(full_response)
-                st.session_state.messages.append({"role": "assistant", "content": full_response})
+            response_placeholder.markdown(full_response)
+            render_assistant_actions()
+            st.session_state.messages.append({"role": "assistant", "content": full_response})
 
-            except Exception as e:
-                st.error(f"Error generating response: {str(e)}")
+        except Exception as e:
+            st.error(f"Error generating response: {str(e)}")
 
 
 if __name__ == "__main__":
