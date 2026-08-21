@@ -1,28 +1,40 @@
-# ⚡ Dynamo AI — Next-Gen Conversational Web Assistant
+# ⚡ Dynamo AI — Next-Gen Conversational Web Assistant & Tool Engine
 
-A sleek, ultra-fast, and modern conversational Web AI Assistant powered by **Groq Free-Tier Models** and **LangGraph ReAct Agent**, built with Streamlit.
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=Streamlit&logoColor=white)](https://streamlit.io/)
+[![Groq](https://img.shields.io/badge/Groq-API-F55034?style=for-the-badge&logo=lightning&logoColor=white)](https://groq.com/)
+[![LangChain / LangGraph](https://img.shields.io/badge/LangGraph-ReAct_Agent-1C3C3C?style=for-the-badge&logo=chainlink&logoColor=white)](https://langchain-ai.github.io/langgraph/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
+
+**Dynamo AI** is a sleek, ultra-fast, and modern web AI assistant powered by **Groq Free-Tier Models** and **LangGraph ReAct Agents**. Built with Streamlit, it features a glassmorphic user interface, real-time streaming responses, right-aligned user prompt bubbles, left-aligned AI responses with interactive action controls, and built-in tool execution.
 
 ---
 
-## 🌟 Key Features
+## 🌟 Features & Highlights
 
-- 🎨 **Modern Glassmorphic Interface**: 
-  - Dynamic gradient title badge, custom typography (`Outfit` & `Plus Jakarta Sans`), and glowing headers.
-  - User prompts in right-aligned gradient pill bubbles (`linear-gradient(135deg, #1d4ed8, #1e40af)`).
-  - Dynamo AI responses in glassmorphic card containers with interactive action controls (`📋 Copy`, `📤 Share`, `🔄 Retry`, `👍 Like`, `•••`).
-  - Interactive Welcome Hero state with quick suggestion cards.
-- ⚡ **Groq Free-Tier LLMs**: High-speed streaming inference with top open-weights models:
+- 🎨 **Modern Glassmorphic Interface**:
+  - Dynamic gradient branding badge with custom Google Fonts (`Outfit` & `Plus Jakarta Sans`).
+  - **User Prompts**: Right-aligned pill bubbles with glowing gradients (`linear-gradient(135deg, #1d4ed8, #1e40af)`).
+  - **Dynamo AI Responses**: Left-aligned glassmorphic card containers with soft drop shadows and real-time streaming output.
+  - **Interactive Action Controls**: Embedded action bar (`📋 Copy`, `📤 Share`, `🔄 Retry`, `👍 Like`, `••• More`) underneath AI responses.
+  - **Welcome Hero Section**: Interactive prompt suggestions displayed when the chat history is empty.
+
+- ⚡ **High-Speed Groq Free-Tier Models**:
   - `llama-3.3-70b-versatile` *(Default)*
   - `qwen/qwen3.6-27b`
   - `llama-3.1-8b-instant`
   - `mixtral-8x7b-32768`
   - `gemma2-9b-it`
-- 🧠 **LangGraph ReAct Agent**: Reasoning and tool-use capabilities using custom agents.
-- 🛠️ **Built-in Agent Tools**:
-  - `calculator`: Performs arithmetic computations.
-  - `say_hello`: Responds with greetings.
-- 🎛️ **Sidebar Control Panel**: Dynamic model switcher, API key input, and instant chat history reset.
-- 📜 **Single-File Architecture**: Clean, modular structure maintained inside [`main.py`](main.py).
+
+- 🧠 **LangGraph ReAct Agent & Tool Execution**:
+  - Seamless agent reasoning with automatic tool calling.
+  - **`calculator`**: Solves arithmetic calculations (`sum`).
+  - **`say_hello`**: Provides personalized greetings.
+
+- 🎛️ **Sidebar Control Panel**:
+  - Live model switcher selectbox.
+  - Real-time Groq API Key configuration.
+  - One-click **Clear Chat History** button.
 
 ---
 
@@ -30,11 +42,11 @@ A sleek, ultra-fast, and modern conversational Web AI Assistant powered by **Gro
 
 ```text
 workshop_2026/
-├── main.py              # Main Streamlit application & LangGraph agent
-├── requirements.txt     # Python dependencies
-├── .env.example         # Template for environment variables
-├── .gitignore           # Git ignore rules
-└── README.md            # Project documentation
+├── main.py              # Main Streamlit application & LangGraph ReAct agent logic
+├── requirements.txt     # Python dependency specifications
+├── .env.example         # Template for required environment variables
+├── .gitignore           # Git version control ignore configuration
+└── README.md            # Comprehensive project documentation
 ```
 
 ---
@@ -49,7 +61,7 @@ cd Chat-Bot
 
 ### 2. Activate Virtual Environment
 ```bash
-# Windows
+# Windows (PowerShell)
 .venv\Scripts\activate
 
 # macOS / Linux
@@ -62,18 +74,21 @@ pip install -r requirements.txt
 ```
 
 ### 4. Configure Environment Variables
-Copy `.env.example` to `.env` and insert your free Groq API Key:
+Copy `.env.example` to `.env` and add your Groq API key:
 ```bash
 cp .env.example .env
 ```
-Inside `.env`:
+Edit `.env`:
 ```env
+# Groq API Configuration
 GROQ_API_KEY=gsk_your_groq_api_key_here
+
+# Selected Groq Model (Default: llama-3.3-70b-versatile)
 GROQ_MODEL=llama-3.3-70b-versatile
 ```
-*(Note: You can also enter your API key directly in the app sidebar at runtime!)*
+*(Note: You can also input or update your API key at runtime inside the Streamlit sidebar!)*
 
-### 5. Launch the Streamlit App
+### 5. Run the Application
 ```bash
 streamlit run main.py
 ```
@@ -81,14 +96,25 @@ Open **`http://localhost:8501`** in your browser.
 
 ---
 
-## 🔑 Getting a Free Groq API Key
+## 🔑 Obtaining a Free Groq API Key
 
-1. Sign up or log in at [Groq Console](https://console.groq.com/).
-2. Navigate to **API Keys** and click **Create API Key**.
-3. Paste your key into `.env` or the Streamlit sidebar input.
+1. Sign up or log in at the [Groq Console](https://console.groq.com/).
+2. Navigate to **API Keys** section and click **Create API Key**.
+3. Copy your key and add it to your `.env` file or enter it into the app sidebar.
+
+---
+
+## 🛠️ Tech Stack
+
+| Component | Technology |
+| :--- | :--- |
+| **Frontend UI** | Streamlit, Custom CSS (Glassmorphism, Google Fonts) |
+| **LLM Provider** | Groq LPU (Speed-optimized inference) |
+| **Agent Framework**| LangGraph ReAct Agent, LangChain Groq |
+| **Language** | Python 3.10+ |
 
 ---
 
 ## 📜 License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License. See `LICENSE` for details.
