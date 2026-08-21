@@ -231,15 +231,25 @@ def main():
         </div>
     ''', unsafe_allow_html=True)
 
-    env_api_key = os.getenv("GROQ_API_KEY", "")
+    # Safe helper to fetch configuration from os env or Streamlit secrets
+    def get_config_val(key: str, default: str = "") -> str:
+        val = os.getenv(key, "")
+        if not val and hasattr(st, "secrets"):
+            try:
+                val = st.secrets.get(key, default)
+            except Exception:
+                val = default
+        return val if val else default
+
+    env_api_key = get_config_val("GROQ_API_KEY", "")
     api_key = st.sidebar.text_input(
         "🔑 Groq API Key",
         value=env_api_key,
         type="password",
-        help="Enter your Groq API Key (defaults to .env file if available)"
+        help="Enter your Groq API Key (defaults to secrets or .env file if available)"
     )
 
-    default_model = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
+    default_model = get_config_val("GROQ_MODEL", "llama-3.3-70b-versatile")
     if default_model not in FREE_TIER_MODELS:
         default_model = "llama-3.3-70b-versatile"
 
