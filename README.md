@@ -1,16 +1,17 @@
-# 🤖 Dynamo AI — Streamlit ChatGPT Assistant (Groq & LangGraph)
+# ⚡ Dynamo AI — Next-Gen Conversational Web Assistant
 
-A sleek, modern ChatGPT-style conversational Web AI Assistant powered by **Groq Free-Tier Models** and **LangGraph ReAct Agent**, built with Streamlit.
+A sleek, ultra-fast, and modern conversational Web AI Assistant powered by **Groq Free-Tier Models** and **LangGraph ReAct Agent**, built with Streamlit.
 
 ---
 
 ## 🌟 Key Features
 
-- 💬 **ChatGPT UI Experience**: 
-  - User prompts rendered in right-aligned dark blue capsule bubbles (`#1a4a84`).
-  - Assistant responses aligned cleanly on the left with interactive action controls (`📋 Copy`, `📤 Share`, `🔄 Regenerate`, `•••`).
-  - Dark mode design (`#0d0d0d`).
-- ⚡ **Groq Free-Tier LLMs**: Supports high-speed streaming inference with top open-weights models:
+- 🎨 **Modern Glassmorphic Interface**: 
+  - Dynamic gradient title badge, custom typography (`Outfit` & `Plus Jakarta Sans`), and glowing headers.
+  - User prompts in right-aligned gradient pill bubbles (`linear-gradient(135deg, #1d4ed8, #1e40af)`).
+  - Dynamo AI responses in glassmorphic card containers with interactive action controls (`📋 Copy`, `📤 Share`, `🔄 Retry`, `👍 Like`, `•••`).
+  - Interactive Welcome Hero state with quick suggestion cards.
+- ⚡ **Groq Free-Tier LLMs**: High-speed streaming inference with top open-weights models:
   - `llama-3.3-70b-versatile` *(Default)*
   - `qwen/qwen3.6-27b`
   - `llama-3.1-8b-instant`
@@ -20,7 +21,7 @@ A sleek, modern ChatGPT-style conversational Web AI Assistant powered by **Groq 
 - 🛠️ **Built-in Agent Tools**:
   - `calculator`: Performs arithmetic computations.
   - `say_hello`: Responds with greetings.
-- 🎛️ **Sidebar Controls**: Dynamic model selector, API key input, and instant chat history reset.
+- 🎛️ **Sidebar Control Panel**: Dynamic model switcher, API key input, and instant chat history reset.
 - 📜 **Single-File Architecture**: Clean, modular structure maintained inside [`main.py`](main.py).
 
 ---
