@@ -12,7 +12,7 @@ from langgraph.prebuilt import create_react_agent
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 
-# Load environment variables
+# Load environment variables from .env file
 load_dotenv()
 
 # --- Custom Agent Tools ---
